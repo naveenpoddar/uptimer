@@ -21,11 +21,11 @@ client.aliases = new discord.Collection();
 client.login(process.env.BOT_TOKEN);
 
 // pinging
-fetchProjects(UrlsConfig);
-setInterval(async () => {
-  let docs = await UrlsConfig.find();
-  client.user.setActivity(`${docs.length} Projetc(s)`, {
-    type: "WATCHING",
-  });
-  fetchProjects(UrlsConfig);
-}, timeout);
+// fetchProjects(UrlsConfig);
+// setInterval(async () => {
+//   let docs = await UrlsConfig.find();
+//   client.user.setActivity(`${docs.length} Projetc(s)`, {
+//     type: "WATCHING",
+//   });
+//   fetchProjects(UrlsConfig);
+// }, timeout);
