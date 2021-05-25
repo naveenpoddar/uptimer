@@ -1,5 +1,5 @@
 const UrlsConfig = require("./../../database/models/UrlsConfig");
-const discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const fetch = require("node-fetch");
 const validUrl = require("valid-url");
 
@@ -15,16 +15,16 @@ module.exports = {
     var url = args[0];
 
     // CHECKS THE URL IF PROVIDED OR WRONG
-    if (!url) return message.reply("Please give a project url!");
+    if (!url) return message.reply("Please provide a project url!");
     if (!validUrl.isUri(url)) {
       return message.channel.send("Please provide a vaild url!");
     }
 
     // LOADING
-    let waitEmbed = new discord.MessageEmbed().setDescription(
+    let waitEmbed = new MessageEmbed().setDescription(
       "<a:HYPR_Loading:802069819842625556> Please wait..."
     );
-    var messageAlert = await message.reply(waitEmbed);
+    var messageAlert = await message.channel.send(message.author, waitEmbed);
 
     // CHECKS IF THE PROJECT IS ALREADY REGISTERED
     var checkIfExsists = await UrlsConfig.findOne({
@@ -39,6 +39,7 @@ module.exports = {
         pinged: 0,
       }).then(async () => {
         // RUNS AFTER THE PROJECT STORES THE DATA IN DATABASE
+        client.projects.push(url);
         try {
           // TRIES TO PING PROJECT
           await fetch(url);
@@ -52,10 +53,8 @@ module.exports = {
           message.reply("Fetching Error");
         }
 
-        client.projects.push(url);
-
         // NOTIFIES WITH AN EMBED THAT PROJECT IS SUCCESSFULLY REGISTERED
-        let embed = new discord.MessageEmbed()
+        let embed = new MessageEmbed()
           .setTitle("✅ Added Succesfully!")
           .setDescription("Thanks for using me")
           .setColor("RANDOM")
@@ -65,7 +64,7 @@ module.exports = {
       });
     } else {
       // RUNS WHEN THE PROJECT IS ALREADY IN DATABASE
-      let embed = new discord.MessageEmbed()
+      let embed = new MessageEmbed()
         .setTitle(
           "<:LLdotwhite:792063761473065986> Project is already Registered!"
         )

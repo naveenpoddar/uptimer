@@ -1,5 +1,5 @@
 const UrlsConfig = require("./../../database/models/UrlsConfig");
-const discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { default_prefix } = require("./../../config.json");
 
 module.exports = {
@@ -17,15 +17,13 @@ module.exports = {
 
     const all = await UrlsConfig.find(filter);
 
-    var menuEmoji = "<a:musica:785432181065121802>";
+    const menuEmoji = "<a:musica:785432181065121802>";
 
-    var embed = new discord.MessageEmbed()
+    let embed = new MessageEmbed()
       .setColor("RANDOM")
-      .setTitle(
-        "<a:musica:785432181065121802> Your Project Stats <a:musica:785432181065121802>"
-      );
+      .setTitle(`${menuEmoji} Your Projects Stats ${menuEmoji}`);
 
-    var count = 0;
+    let count = 0;
     all.forEach(async (data) => {
       count++;
       if (count === 26) return;
@@ -50,7 +48,7 @@ module.exports = {
 
     if (count === 0) {
       embed.setDescription(
-        `*You don't have any projects hosted.*\nHost one by using: ${default_prefix}add [project Url]`
+        `*You don't have any projects hosted.*\nAdd one by using: ${default_prefix}add [project Url]`
       );
     }
     embed.setFooter(`Date Format: DD/MM/YY | HH:MM:SS`);
@@ -82,7 +80,7 @@ function formatDate(date) {
   if (month.length < 2) month = "0" + month;
   if (day.length < 2) day = "0" + day;
 
-  var format = `${day}/${month}/${year} | ${hours}:${mins}:${sec}`;
+  let format = `${day}/${month}/${year} | ${hours}:${mins}:${sec}`;
 
   return format;
 }

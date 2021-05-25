@@ -1,4 +1,5 @@
 const { Client, MessageEmbed } = require("discord.js");
+const { error_logs } = require("./config.json");
 const fetch = require("node-fetch");
 const UrlsConfig = require("./database/models/UrlsConfig");
 
@@ -9,42 +10,48 @@ const UrlsConfig = require("./database/models/UrlsConfig");
  */
 module.exports = async (projects, client) => {
   projects.forEach(async (url) => {
-    let pro = await UrlsConfig.findOne({
+    let doc = await UrlsConfig.findOne({
       projectURL: url,
     });
 
-    let pinged = pro.get("pinged");
-    let author = pro.get("authorID");
+    let pinged = doc.get("pinged");
+    let author = doc.get("authorID");
 
+    let errors = false;
     try {
       await fetch(url);
     } catch (e) {
+      errors = true;
+
       let embed = new MessageEmbed()
         .setTitle(`Unable to fetch`)
         .setColor("#2990ff")
         .addField("Url", url)
         .addField("Author", author)
-        .addField("Error", e.message);
+        .addField("Error", `${e.name}\n\n${e.message}`);
 
       await UrlsConfig.findOneAndUpdate(
         { projectURL: url },
-        { error: true, errorText: e.message },
+        {
+          error: true,
+          errorText: e.message,
+        },
         { new: true }
       );
 
-      return client.channels.cache.get(process.env.ERROR_LOGS)?.send(embed);
-    }
-
-    pinged++;
-
-    UrlsConfig.findOneAndUpdate(
-      {
-        projectURL: url,
-      },
-      { pinged },
-      {
-        new: true,
+      client.channels.cache.get(error_logs)?.send(embed);
+    } finally {
+      if (!errors) {
+        pinged++;
+        await UrlsConfig.findOneAndUpdate(
+          { projectURL: url },
+          {
+            error: false,
+            pinged,
+          },
+          { new: true }
+        );
       }
-    );
+    }
   });
 };

@@ -1,6 +1,9 @@
 {
-    "default_prefix": ",",
-    "owners": ["726286862792261703", "514421874093195274"],
-    "timeout": 300000,
-    "invite_link": "https://discord.com/oauth2/authorize?client_id=764445065153871872&scope=bot&permissions=523328"
+  "default_prefix": ",,",
+  "owners": ["726286862792261703", "514421874093195274"],
+  "timeout": 300000,
+  "invite_link": "https://discord.com/oauth2/authorize?client_id=764445065153871872&scope=bot&permissions=523328",
+  "error_logs": "841865837228458034",
+  "success_logs": "842020492310347777",
+  "disable_fetching": true
 }

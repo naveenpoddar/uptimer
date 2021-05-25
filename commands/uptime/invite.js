@@ -1,4 +1,4 @@
-const discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const { invite_link } = require("./../../config.json");
 
 module.exports = {
@@ -9,17 +9,21 @@ module.exports = {
   authorPermission: [],
   ownerOnly: false,
   run: async (client, message, args) => {
-    let girhub_repo = "https://github.com/naveenpoddar/uptimer";
-    let embed = new discord.MessageEmbed()
-      .setTitle("Invite Me / Support.")
+    let github_repo = "https://github.com/naveenpoddar/uptimer";
+
+    let embed = new MessageEmbed()
+      .setTitle("Invite Me / Support Me.")
+      .setDescription(
+        "Uptimer is a open-source, free discord bot that allows you to make your projects online 24/7 just by using a single cmd."
+      )
       .setColor("#a1eb34")
       .addField(
         "<:link:807875763415416853> **Invite Me**",
         "[Click here](" + invite_link + ") to invite me to into server."
       )
       .addField(
-        "<:link:807875763415416853> **Get Code**",
-        "[Click here](" + girhub_repo + ") to get Source Code."
+        "<:link:807875763415416853> **Source Code**",
+        "[Click here](" + github_repo + ") Support this open-source project."
       )
       .setTimestamp();
 
