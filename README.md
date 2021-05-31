@@ -1,5 +1,14 @@
 # Uptimer
 
+<p>
+  <a href="https://discord.gg/mnQvdsZx5F"><img src="https://img.shields.io/discord/645980399545221153?color=7289da&logo=discord&logoColor=white" alt="Discord server" /></a>
+</p>
+
+```diff
+- The source code won't work on Glitch/Repl.it.
++ Node V14 Required.
+```
+
 ## About
 
 Uptimer is a open-source, free discord bot that allows you to make your projects online 24/7.
