@@ -5,8 +5,8 @@
 </p>
 
 ```diff
-- The source code won't work on Glitch/Repl.it.
-+ Node V14 Required.
++ Node Version Requirements: v14+
++ Mongoose Pro Cluster Required
 ```
 
 ## About
