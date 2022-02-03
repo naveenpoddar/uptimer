@@ -24,6 +24,8 @@ Uptimer is a open-source, free discord bot that allows you to make your projects
 
 ## Ussage
 
+==Attention! The Uptimer Bot on Cursor Gaming is closed if you still want to use the bot fork the repository==
+
 > Works for [Glitch](https://glitch.com/)
 
 1. Go to Your Project. Click the share button.
