@@ -1,5 +1,7 @@
 # Uptimer
 
+## Important : THIS PROJECT NO LONGER ACTIVE!! There is a new project open and working <a href="https://uptimer.cursor.works">click here</a> to view it.
+
 <p>
   <a href="https://discord.gg/mnQvdsZx5F"><img src="https://img.shields.io/discord/645980399545221153?color=7289da&logo=discord&logoColor=white" alt="Discord server" /></a>
 </p>
