@@ -1,44 +1,41 @@
 require("dotenv").config();
 const { Client, Collection } = require("discord.js");
-const UrlsConfig = require("./database/models/UrlsConfig");
-const fetchProjects = require("./fetchProjects");
+const connectDatabase = require("./database/connect");
 const { timeout, disable_fetching } = require("./config.json");
+const loadHandlers = require("./services/loadHandlers");
+const { loadProjects } = require("./services/projectRegistry");
+const startPingScheduler = require("./services/pingScheduler");
 
-const client = new Client({
-  disableEveryone: true,
-});
-
-(async () => {
-  await require("./database/connect")();
-
-  let pros = await UrlsConfig.find();
+const createClient = () => {
+  const client = new Client({
+    disableEveryone: true,
+  });
 
   client.commands = new Collection();
   client.aliases = new Collection();
   client.projectsSize = 0;
-  client.projects = pros.map((p) => p.projectURL);
+  client.projects = [];
 
-  UrlsConfig.countDocuments({}, async (err, total) => {
-    client.projectsSize = total;
+  return client;
+};
 
-    ["command", "events"].forEach((handler) => {
-      require(`./handlers/${handler}`)(client);
-    });
+const startBot = async () => {
+  await connectDatabase();
 
-    await client.login(process.env.BOT_TOKEN);
+  const client = createClient();
+  await loadProjects(client);
+  loadHandlers(client);
 
-    if (!disable_fetching) fetchProjects(client.projects, client);
+  await client.login(process.env.BOT_TOKEN);
+
+  startPingScheduler({
+    client,
+    intervalMs: timeout,
+    disableFetching: disable_fetching,
   });
-})();
+};
 
-// pinging
-setInterval(async () => {
-  UrlsConfig.countDocuments({}, (err, total) => {
-    client.projectsSize = total;
-    client.user.setActivity(`${total} Project(s)`, {
-      type: "WATCHING",
-    });
-  });
-
-  if (!disable_fetching) fetchProjects(client.projects, client);
-}, timeout);
+startBot().catch((error) => {
+  console.error("Failed to start Uptimer:", error);
+  process.exitCode = 1;
+});
